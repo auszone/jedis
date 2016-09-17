@@ -132,6 +132,16 @@ public class Client extends BinaryClient implements Commands {
     mget(bkeys);
   }
 
+  public void mgetrange(final String[] keys, final long[] starts, final long[] ends) {
+    final byte[][] bkeysstartsends = new byte[keys.length * 3][];
+    for (int i = 0, j = 0; i < bkeysstartsends.length; i += 3, j++) {
+      bkeysstartsends[i] = SafeEncoder.encode(keys[j]);
+      bkeysstartsends[i + 1] = toByteArray(starts[j]);
+      bkeysstartsends[i + 2] = toByteArray(ends[j]);
+    }
+    mgetrange(bkeysstartsends);
+  }
+
   @Override
   public void setnx(final String key, final String value) {
     setnx(SafeEncoder.encode(key), SafeEncoder.encode(value));

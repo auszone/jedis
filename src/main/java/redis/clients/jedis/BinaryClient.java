@@ -201,6 +201,10 @@ public class BinaryClient extends Connection {
     sendCommand(MGET, keys);
   }
 
+  public void mgetrange(final byte[][] bkeysstartsends) {
+    sendCommand(MGETRANGE, bkeysstartsends);
+  }
+
   public void setnx(final byte[] key, final byte[] value) {
     sendCommand(SETNX, key, value);
   }

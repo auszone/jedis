@@ -435,6 +435,13 @@ public class Jedis extends BinaryJedis implements JedisCommands, MultiKeyCommand
     return client.getMultiBulkReply();
   }
 
+  public List<String> mgetrange(final String[] keys, final long[] starts, final long[] ends) {
+    assert keys.length == starts.length && starts.length == ends.length;
+    checkIsInMultiOrPipeline();
+    client.mgetrange(keys, starts, ends);
+    return client.getMultiBulkReply();
+  }
+
   /**
    * SETNX works exactly like {@link #set(String, String) SET} with the only difference that if the
    * key already exists no operation is performed. SETNX actually means "SET if Not eXists".
