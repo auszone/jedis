@@ -59,6 +59,37 @@ public class StringValuesCommandsTest extends JedisCommandTestBase {
   }
 
   @Test
+  public void mgetrange() {
+    String[] keys = {"foo", "bar"};
+    long[] starts = {1, 0};
+    long[] ends = {2, 1};
+    List<String> values = jedis.mgetrange(keys, starts, ends);
+    List<String> expected = new ArrayList<String>();
+    expected.add(null);
+    expected.add(null);
+
+    assertEquals(expected, values);
+
+    jedis.set("foo", "bar");
+
+    expected = new ArrayList<String>();
+    expected.add("ar");
+    expected.add(null);
+    values = jedis.mgetrange(keys, starts, ends);
+
+    assertEquals(expected, values);
+
+    jedis.set("bar", "foo");
+
+    expected = new ArrayList<String>();
+    expected.add("ar");
+    expected.add("fo");
+    values = jedis.mgetrange(keys, starts, ends);
+
+    assertEquals(expected, values);
+  }
+
+  @Test
   public void setnx() {
     long status = jedis.setnx("foo", "bar");
     assertEquals(1, status);
