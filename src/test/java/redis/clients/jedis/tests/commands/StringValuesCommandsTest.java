@@ -90,6 +90,37 @@ public class StringValuesCommandsTest extends JedisCommandTestBase {
   }
 
   @Test
+  public void mgetsuffix() {
+    String[] keys = {"foo", "bar"};
+    long[] starts = {1, 0};
+    List<String> values = jedis.mgetsuffix(keys, starts);
+    List<String> expected = new ArrayList<String>();
+    expected.add(null);
+    expected.add(null);
+
+    assertEquals(expected, values);
+
+    jedis.set("foo", "bar");
+
+    expected = new ArrayList<String>();
+    expected.add("ar");
+    expected.add(null);
+    values = jedis.mgetsuffix(keys, starts);
+
+    assertEquals(expected, values);
+
+    jedis.set("bar", "foo");
+
+    expected = new ArrayList<String>();
+    expected.add("ar");
+    expected.add("foo");
+    values = jedis.mgetsuffix(keys, starts);
+
+    assertEquals(expected, values);
+
+  }
+
+  @Test
   public void setnx() {
     long status = jedis.setnx("foo", "bar");
     assertEquals(1, status);

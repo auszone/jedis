@@ -77,7 +77,7 @@ public class BinaryClient extends Connection {
   public boolean isInWatch() {
     return isInWatch;
   }
-  
+
   private byte[][] joinParameters(byte[] first, byte[][] rest) {
     byte[][] result = new byte[rest.length + 1][];
     result[0] = first;
@@ -203,6 +203,10 @@ public class BinaryClient extends Connection {
 
   public void mgetrange(final byte[][] bkeysstartsends) {
     sendCommand(MGETRANGE, bkeysstartsends);
+  }
+
+  public void mgetsuffix(final byte[][] bkeysstarts) {
+    sendCommand(MGETSUFFIX, bkeysstarts);
   }
 
   public void setnx(final byte[] key, final byte[] value) {
